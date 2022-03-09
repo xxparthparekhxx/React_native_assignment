@@ -7,24 +7,25 @@ export enum inputType {
     password
 };
 
-export default function input({ valid, type, value, placeholder, handleChange, validator, error_reason, isPassword = false }: { valid: boolean; type: inputType; value: string; placeholder: string; handleChange: Function; validator: Function; error_reason: string; isPassword?: boolean }) {
-
+//{ valid, type, value, placeholder, handleChange, validator, error_reason, isPassword = false }: { valid: boolean; type: inputType; value: string; placeholder: string; handleChange: Function; validator: Function; error_reason: string; isPassword?: boolean }
+export default function input(props) {
+    console.log(props);
 
     return <View style={{ padding: 12 }}>
         < TextInput
 
-            key={placeholder}
-            style={{ ...Style.input, borderColor: !(error_reason.length > 0) ? "black" : "red" }}
-            onChangeText={(e) => handleChange(e, type)}
-            value={value}
+            key={props.placeholder}
+            style={{ ...Style.input, borderColor: !(props.error_reason.length > 0) ? "black" : "red" }}
+            onChangeText={(e) => props.handleChange(e, props.type)}
+            value={props.value}
 
-            onEndEditing={(e) => validator(type)}
-            placeholder={placeholder}
-            secureTextEntry={isPassword}
+            onBlur={(e) => props.validator(props.type)}
+            placeholder={props.placeholder}
+            secureTextEntry={props.isPassword}
         />
-        {error_reason !== "" &&
+        {props.error_reason !== "" &&
             <Text style={Style.errText}>
-                {error_reason}
+                {props.error_reason}
             </Text>}
     </View>
 }

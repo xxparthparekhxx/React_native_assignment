@@ -9,7 +9,7 @@ var hasNumber = /[0-9]/g;
 var hasCapital = /[A-Z]/g;
 var hasLowerCase = /[a-z]/g;
 function UnAuthHomeScreen(props: any) {
-    console.log(props);
+
     const renderItem = ({ item }: any) => {
         console.log("This is the item we get", item);
         return <TouchableOpacity onPress={() => {
@@ -22,7 +22,7 @@ function UnAuthHomeScreen(props: any) {
 
     }
 
-    const [CurrentEditing, setCurrentEditing] = useState({
+    const intialState = {
         "isEditing": false,
         username: "",
         password: "",
@@ -33,7 +33,10 @@ function UnAuthHomeScreen(props: any) {
         newpassword_error: "",
         newusername_error: "",
         newemail_error: ""
-    });
+    }
+    const [CurrentEditing, setCurrentEditing] = useState(intialState);
+
+
     function handleChange(Data: string, etype: inputType): void {
 
         switch (etype) {
@@ -148,12 +151,16 @@ function UnAuthHomeScreen(props: any) {
                         <View style={styles.card}>
 
                             {
-                                [
 
-                                    Input({ valid: CurrentEditing.newusername_error.length == 0, type: inputType.usename, value: CurrentEditing.newusername, placeholder: "username", handleChange, validator, error_reason: CurrentEditing.newusername_error }),
-                                    Input({ valid: CurrentEditing.newemail_error.length == 0, type: inputType.email, value: CurrentEditing.newemail, placeholder: "email", handleChange, validator, error_reason: CurrentEditing.newemail_error }),
-                                    Input({ valid: CurrentEditing.newpassword_error.length == 0, type: inputType.password, value: CurrentEditing.newpassword, placeholder: "password", handleChange, validator, error_reason: CurrentEditing.newpassword_error, isPassword: true })
-                                ]
+                                <>
+                                    <Input key={"username"} valid={CurrentEditing.newusername_error.length == 0} type={inputType.usename} value={CurrentEditing.newusername} placeholder={"username"} handleChange={handleChange} validator={validator} error_reason={CurrentEditing.newusername_error} />
+                                    <Input key={"email"} valid={CurrentEditing.newemail_error.length == 0} type={inputType.email} value={CurrentEditing.newemail} placeholder={"email"} handleChange={handleChange} validator={validator} error_reason={CurrentEditing.newemail_error} />
+                                    <Input key={"password"} valid={CurrentEditing.newpassword_error.length == 0} type={inputType.password} value={CurrentEditing.newpassword} placeholder={"password"} handleChange={handleChange} validator={validator} error_reason={CurrentEditing.newpassword_error} isPassword={true} />
+                                </>
+                                // Input({valid: CurrentEditing.newusername_error.length == 0, type: inputType.usename, value: CurrentEditing.newusername, placeholder: "username", handleChange, validator, error_reason: CurrentEditing.newusername_error }),
+                                // Input({valid: CurrentEditing.newemail_error.length == 0, type: inputType.email, value: CurrentEditing.newemail, placeholder: "email", handleChange, validator, error_reason: CurrentEditing.newemail_error }),
+                                // Input({valid: CurrentEditing.newpassword_error.length == 0, type: inputType.password, value: CurrentEditing.newpassword, placeholder: "password", handleChange, validator, error_reason: CurrentEditing.newpassword_error, isPassword: true })
+
                             }
                             <Button onPress={() => {
                                 setCurrentEditing({
@@ -177,18 +184,7 @@ function UnAuthHomeScreen(props: any) {
                                 if (CurrentEditing.newpassword_error == "" && CurrentEditing.newemail_error == "" && CurrentEditing.newusername_error == "" && CurrentEditing.newusername !== "" && (!UserAlreadyExists(props.AppUsers))) {
                                     console.log(CurrentEditing);
                                     props.update(CurrentEditing.newusername, CurrentEditing.newemail, CurrentEditing.newpassword, { username: CurrentEditing.username, email: CurrentEditing.email, password: CurrentEditing.password });
-                                    setCurrentEditing({
-                                        "isEditing": false,
-                                        username: "",
-                                        password: "",
-                                        email: "",
-                                        newemail: "",
-                                        newpassword: "",
-                                        newusername: "",
-                                        newpassword_error: "",
-                                        newusername_error: "",
-                                        newemail_error: ""
-                                    })
+                                    setCurrentEditing(intialState);
 
                                 }
                             }} title='Update'> </Button>

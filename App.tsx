@@ -1,7 +1,7 @@
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UnAuthHomeScreen from './src/Screens/homeScreen';
-import DetailsScreen from './src/Screens/DetailsScreen';
+
 import SigninScreen from './src/Screens/SigninScreen';
 import SignupScreen from './src/Screens/SignupScreen';
 
@@ -20,7 +20,6 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={UnAuthHomeScreen} options={{ title: 'Sign in Page' }} />
-          <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Details Screen' }} />
           <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign in Screen' }} />
           <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign up Screen' }} />
 

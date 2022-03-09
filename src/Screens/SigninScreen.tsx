@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Input, { inputType } from "../components/input"
 import { connect } from 'react-redux'
 import { createUser, loginUser } from '../redux/actions/User'
-function SigninScreen(props: never) {
+function SigninScreen(props: { AppUsers: any; login: (arg0: string, arg1: string) => void; navigation: { navigate: (arg0: string) => void } }) {
     const [Details, setDetails] = useState({
         "password": "",
         "username": "",
@@ -35,7 +35,7 @@ function SigninScreen(props: never) {
                 break;
         }
     }
-    function CheckCredsValidity(arr) {
+    function CheckCredsValidity(arr: string | any[]) {
 
         for (let i = 0; i < arr.length; i++) {
             if (arr[i].username === Details.username && arr[i].password === Details.password) {
@@ -53,10 +53,11 @@ function SigninScreen(props: never) {
 
                 <Text> Signin </Text>
 
-                {[
-                    Input({ valid: Details.valid_details, type: inputType.usename, value: Details.username, error_reason: Details.error_reason, handleChange: handleChange, placeholder: "username", validator: validator }),
-                    Input({ valid: Details.valid_details, type: inputType.password, value: Details.password, error_reason: "", handleChange: handleChange, placeholder: "password", validator: validator, isPassword: true })
-                ]}
+                <>
+                    <Input valid={Details.valid_details} type={inputType.usename} value={Details.username} error_reason={Details.error_reason} handleChange={handleChange} placeholder={"username"} validator={validator} />
+                    <Input valid={Details.valid_details} type={inputType.password} value={Details.password} error_reason={""} handleChange={handleChange} placeholder={"password"} validator={validator} isPassword={true} />
+                </>
+
                 <Button title='Login' onPress={() => {
                     if (CheckCredsValidity(props.AppUsers)) {
 
@@ -110,7 +111,7 @@ const mapStatetoProps = (state: { User: { Users: any } }) => {
 }
 const mapDispatchToProps = (dispatch: (arg0: { type: string; payload: { username: string; password: string } }) => any) => {
     return {
-        login: (username, password) => { dispatch(loginUser({ username, password })); }
+        login: (username: any, password: any) => { dispatch(loginUser({ username, password })); }
     }
 }
 

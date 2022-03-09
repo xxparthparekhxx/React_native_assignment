@@ -11,7 +11,7 @@ var hasNumber = /[0-9]/g;
 var hasCapital = /[A-Z]/g;
 var hasLowerCase = /[a-z]/g;
 
-function SignupScreen(props: never) {
+function SignupScreen(props: { AppUsers: any; editingOld: number; CreateU: (arg0: string, arg1: string, arg2: string) => void; navigation: { navigate: (arg0: string) => void } }) {
     const [Details, setDetails] = useState({
         "email": "",
         "password": "",
@@ -122,7 +122,7 @@ function SignupScreen(props: never) {
 
     // const users = useSelector();
     // const dispatch = useDispatch();
-    function UserAlreadyExists(arr) {
+    function UserAlreadyExists(arr: string | any[]) {
 
         for (let i = 0; i < arr.length; i++) {
 
@@ -139,12 +139,15 @@ function SignupScreen(props: never) {
             <View style={styles.card}>
                 <Text > Sign Up </Text>
                 {
-                    [
+                    <>
+                        <Input key={"username"} valid={Details.validusename} type={inputType.usename} value={Details.username} placeholder={"username"} handleChange={handleChange} validator={validator} error_reason={Details.usernameError} />
+                        <Input key={"email"} valid={Details.validEmail} type={inputType.email} value={Details.email} placeholder={"email"} handleChange={handleChange} validator={validator} error_reason={Details.emailError} />
+                        <Input key={"password"} valid={Details.validPassword} type={inputType.password} value={Details.password} placeholder={"password"} handleChange={handleChange} validator={validator} error_reason={Details.passwordError} isPassword={true} />
+                    </>
+                    // Input({valid: Details.validusename, type: inputType.usename, value: Details.username, placeholder: "username", handleChange, validator, error_reason: Details.usernameError }),
+                    // Input({valid: Details.validEmail, type: inputType.email, value: Details.email, placeholder: "email", handleChange, validator, error_reason: Details.emailError }),
+                    // Input({valid: Details.validPassword, type: inputType.password, value: Details.password, placeholder: "password", handleChange, validator, error_reason: Details.passwordError, isPassword: true })
 
-                        Input({ valid: Details.validusename, type: inputType.usename, value: Details.username, placeholder: "username", handleChange, validator, error_reason: Details.usernameError }),
-                        Input({ valid: Details.validEmail, type: inputType.email, value: Details.email, placeholder: "email", handleChange, validator, error_reason: Details.emailError }),
-                        Input({ valid: Details.validPassword, type: inputType.password, value: Details.password, placeholder: "password", handleChange, validator, error_reason: Details.passwordError, isPassword: true })
-                    ]
                 }
 
                 <View style={styles.padded}>
@@ -172,7 +175,6 @@ function SignupScreen(props: never) {
 
                             props.CreateU(Details.username.trim(), Details.email.trim(), Details.password.trim());
                             props.navigation.navigate("Home");
-
                         }
 
 
@@ -180,7 +182,7 @@ function SignupScreen(props: never) {
                     <Text></Text>
                 </View>
             </View>
-        </View>
+        </View >
     )
 }
 const styles = StyleSheet.create({
@@ -218,7 +220,7 @@ const mapStatetoProps = (state: { User: { Users: any } }) => {
 }
 const mapDispatchToProps = (dispatch: (arg0: { type: string; payload: { username: string; email: string; password: string } }) => any) => {
     return {
-        CreateU: (username, email, password) => { dispatch(createUser({ username, email, password })); }
+        CreateU: (username: any, email: any, password: any) => { dispatch(createUser({ username, email, password })); }
     }
 }
 
